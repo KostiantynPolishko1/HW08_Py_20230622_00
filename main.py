@@ -17,7 +17,7 @@ while True:
     try:
         n = abs(int(n))
         if n > 5:
-            print("\n\tERROR!" + str(n) + "is out of range 0...6\n")
+            print("\n\tERROR!\n\t" + str(n) + "is out of range 0...6\n")
             continue
     except:
         print("\n\tERROR! Enter int. value\n")
@@ -29,9 +29,13 @@ while True:
         break
 
     elif n == 1:
-        print("\n\tList of contacts:")
-        for name in contacts:
-            print(name + ",\tmob: " + contacts[name])
+        print("\n\tList of contacts", end='')
+        if not len(contacts):
+            print(" is empty", contacts)
+        else:
+            print(":")
+            for name in contacts:
+                print(name + ",\tmob: " + contacts[name])
 
     elif n == 2:
         print("\nadd new contacts:")
@@ -47,7 +51,7 @@ while True:
         ind: int = 0
         while ind < count:
             print("\n" + str(ind+1) + " contact:")
-            name = input("\tenter name\t-> ")
+            name_add = input("\tenter name\t-> ")
 
             while True: # check if number in digit format
                 logic = False
@@ -64,10 +68,34 @@ while True:
                             break
                         ind2 += 1
                     else:
-                        contacts[name] = mob_num
+                        contacts[name_add] = mob_num
 
                 if logic:
                     continue
                 else:
                     ind += 1
                     break
+
+    elif n == 3:
+        print("\ndelete contacts")
+        while True:
+            count = input("Enter qty of contacts to delete: ")
+            try:
+                count = abs(int(count))
+            except:
+                print("\n\tERROR! Enter int. value\n")
+                continue
+            if count > len(contacts):
+                print("\nAll CONCTACTS DELETED!")
+                contacts.clear()
+                print("List of contacts is empty", contacts)
+                break
+            else:
+                while count:
+                    name_del = input("\tenter name: ")
+                    if contacts.get(name_del, False):
+                        del contacts[name_del]
+                        count -= 1
+                    else:
+                        print("\"{}\" is absent in contacts".format(name_del))
+                        continue
