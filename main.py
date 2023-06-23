@@ -82,20 +82,40 @@ while True:
             count = input("Enter qty of contacts to delete: ")
             try:
                 count = abs(int(count))
+                break
             except:
                 print("\n\tERROR! Enter int. value\n")
                 continue
-            if count > len(contacts):
-                print("\nAll CONCTACTS DELETED!")
-                contacts.clear()
-                print("List of contacts is empty", contacts)
-                break
+
+        if count > len(contacts):
+            print("\nAll CONCTACTS DELETED!")
+            contacts.clear()
+            print("List of contacts is empty", contacts)
+            break
+        else:
+            while count:
+                name_del = input("\tenter name: ")
+                if contacts.get(name_del, False):
+                    del contacts[name_del]
+                    print("\"{}\" contact is deleted".format(name_del))
+                    count -= 1
+                else:
+                    print("\"{}\" is absent in contacts".format(name_del))
+                    continue
+
+    elif n == 5:
+        print("\nsearch contacts")
+        while True:
+            name_search = input("\tenter name: ")
+            if contacts.get(name_search, False):
+                print("name {} : phone {}".format(name_search, contacts[name_search]))
             else:
-                while count:
-                    name_del = input("\tenter name: ")
-                    if contacts.get(name_del, False):
-                        del contacts[name_del]
-                        count -= 1
-                    else:
-                        print("\"{}\" is absent in contacts".format(name_del))
-                        continue
+                print("\"{}\" is absent in contacts".format(name_search))
+                continue
+            ind3 = abs(int(input("\n0 - STOP! / 1 - CONTINUE\n\tenter -> ")))
+
+            if ind3:
+                continue
+            else:
+                print("END of SEARCH!")
+                break
