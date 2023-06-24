@@ -24,11 +24,11 @@ while True:
         continue
     print("\t\toperation", n)
 
-    if n == 0:
+    if n == 0: # EXIT
         print("\n\tEXIT!")
         break
 
-    elif n == 1:
+    elif n == 1: # SHOW CONTACTS
         print("\n\tList of contacts", end='')
         if not len(contacts):
             print(" is empty", contacts)
@@ -48,7 +48,7 @@ while True:
                 else:
                     print(name, " : ", contacts[name])
 
-    elif n == 2:
+    elif n == 2: # ADD NEW CONTACTS
         print("\nadd new contacts:")
         while True:
             count = input("Enter qty of new contacts to add: ")
@@ -91,7 +91,7 @@ while True:
                     ind += 1
                     break
 
-    elif n == 3:
+    elif n == 3: # DELETE CONTACTS
         print("\ndelete contacts")
         while True:
             count = input("Enter qty of contacts to delete: ")
@@ -111,13 +111,47 @@ while True:
             while count:
                 name_del = input("\tenter name: ")
                 if contacts.get(name_del, False):
-                    del contacts[name_del]
-                    print("\"{}\" contact is deleted".format(name_del))
+                    if type(contacts[name_del]) == dict:
+                        print(name_del, ":")
+                        for ph in contacts[name_del]:
+                            print("\t\t", ph, " -> ", contacts[name_del][ph])
+                        while True:
+                            ph_type = input("enter type phone -> ")
+                            if contacts[name_del].get(ph_type, False):
+                                print("DELETE! ->", end='')
+                                print(ph_type, " : ", contacts[name_del][ph_type])
+                                del contacts[name_del][ph_type]
+                                break
+                            else:
+                                print("enter correct type as:")
+                                for i in contacts[name_del]:
+                                    print("\t\t\t", i)
+                                continue
+                    elif type(contacts[name_del]) == list:
+                        ph_pos: int = 0
+                        print(name_del, ":")
+                        for ind in contacts[name_del]:
+                            ph_pos += 1
+                            print("\t\t", ph_pos, " -> ", ind)
+                        while True:
+                            ph_num = int(input("enter phone Pos. delete -> "))
+                            if ph_num > ph_pos:
+                                print("\nN phone is out of range")
+                                continue
+                            print("DELETE! -> phone {}: {}".format(ph_num, contacts[name_del][ph_num-1]))
+                            del contacts[name_del][ph_num-1]
+                            break
+                    else:
+                        del contacts[name_del]
+                        print("\"{}\" contact is deleted".format(name_del))
                     count -= 1
                 else:
                     print("\"{}\" is absent in contacts".format(name_del))
                     continue
-    elif n == 4:
+            else:
+                print("DONE!")
+
+    elif n == 4: # MODIFY CONTACTS
         print("\nmodify contacts")
         while True:
             ph_pos = 0
@@ -206,7 +240,7 @@ while True:
                 print("END of SEARCH!")
                 break
 
-    elif n == 5:
+    elif n == 5: # SEARCH CONTACTS
         print("\nsearch contacts")
         while True:
             name_search = input("\tenter name: ")
