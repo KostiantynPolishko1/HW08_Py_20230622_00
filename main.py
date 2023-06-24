@@ -34,7 +34,7 @@ while True:
             print(" is empty", contacts)
         else:
             print(":")
-            for name in contacts:
+            for name in sorted(contacts):
                 if type(contacts[name]) == dict:
                     print(name, ":")
                     for ph in contacts[name]:
@@ -58,12 +58,12 @@ while True:
             except:
                 print("\n\tERROR! Enter int. value\n")
                 continue
-
         ind: int = 0
         while ind < count:
-            print("\n" + str(ind+1) + " contact:")
+            print("\ncontact {}:".format(ind+1))
             name_add = input("\tenter name\t-> ")
-
+            arr_ph_num = []
+            ind: int = 0
             while True: # check if number in digit format
                 logic = False
                 mob_num = input("\tenter mob.num\t-> ")
@@ -83,13 +83,17 @@ while True:
                         if mob_num[len(mob_num) - 1] == '-':
                             temp = mob_num[0:len(mob_num) - 1]
                             mob_num = temp
-                        contacts[name_add] = mob_num
-
+                        arr_ph_num.append(mob_num)
                 if logic:
                     continue
                 else:
-                    ind += 1
-                    break
+                    add = input("PRESS \"+\" to add phone number -> ")
+                    if add == '+':
+                        continue
+                    else:
+                        contacts[name_add] = arr_ph_num
+                        break
+            ind += 1
 
     elif n == 3: # DELETE CONTACTS
         print("\ndelete contacts")
