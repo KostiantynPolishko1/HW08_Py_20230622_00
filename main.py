@@ -56,18 +56,22 @@ while True:
             while True: # check if number in digit format
                 logic = False
                 mob_num = input("\tenter mob.num\t-> ")
-                if not mob_num[0].isdigit() and mob_num[0] != "+":
+                if not mob_num[0].isdigit() and mob_num[0] != '+':
                     print("\n\tERROR!\n\tenter mob. number in format\n\t+...int digit\n\tor in 000...int digit\n")
                     continue
                 else:
                     ind2: int = 1
                     while ind2 < len(mob_num):
-                        if not (mob_num[ind2].isdigit()):
+                        if mob_num[ind2].isdigit() or mob_num[ind2] == '-':
+                            ind2 += 1
+                        else:
                             print("\n\tERROR!\n\tenter mob. number in format of digit number\n")
                             logic = True
                             break
-                        ind2 += 1
                     else:
+                        if mob_num[len(mob_num) - 1] == '-':
+                            temp = mob_num[0:len(mob_num) - 1]
+                            mob_num = temp
                         contacts[name_add] = mob_num
 
                 if logic:
@@ -102,6 +106,49 @@ while True:
                 else:
                     print("\"{}\" is absent in contacts".format(name_del))
                     continue
+    elif n == 4:
+        print("\nmodify contacts")
+        while True:
+            name_search = input("\tenter name: ")
+            if contacts.get(name_search, False):
+                print("name {} : phone {}".format(name_search, contacts[name_search]))
+                name_modify = input("\n\tenter new name\t-> ")
+                contacts[name_modify] = contacts.pop(name_search)
+
+                while True:  # check if number in digit format
+                    logic = False
+                    mobil_modify = input("\tenter new mobile -> ")
+                    if not mobil_modify[0].isdigit() and mobil_modify[0] != '+':
+                        print("\n\tERROR!\n\tenter mob. number in format\n\t+...int digit\n\tor in 000...int digit\n")
+                        continue
+                    else:
+                        ind2: int = 1
+                        while ind2 < len(mobil_modify):
+                            if mobil_modify[ind2].isdigit() or mobil_modify[ind2] == '-':
+                                ind2 += 1
+                            else:
+                                print("\n\tERROR!\n\tenter mob. number in format of digit number\n")
+                                logic = True
+                                break
+                        else:
+                            if mobil_modify[len(mobil_modify)-1] == '-':
+                                temp = mobil_modify[0:len(mobil_modify)-1]
+                                mobil_modify = temp
+                            contacts[name_modify] = mobil_modify
+                    if logic:
+                        continue
+                    else:
+                        break
+            else:
+                print("\"{}\" is absent in contacts".format(name_search))
+                continue
+
+            ind3 = abs(int(input("\n0 - STOP! / 1 - CONTINUE\n\tenter -> ")))
+            if ind3:
+                continue
+            else:
+                print("END of SEARCH!")
+                break
 
     elif n == 5:
         print("\nsearch contacts")
